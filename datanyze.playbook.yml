@@ -1,0 +1,21 @@
+- hosts: all
+  gather_facts: no
+  pre_tasks:
+    - name: 'install python2'
+      raw: sudo apt-get -y install python-minimal
+
+- hosts: all
+  gather_facts: yes
+  roles:
+  - { role: common }
+
+- hosts: haproxy
+  roles:
+  - { role: haproxy }
+
+
+#- hosts: nginx
+#  roles:
+#  - { role: nginx }
+#  - { role: logrotate }
+#  - { role: uwsgi-app }

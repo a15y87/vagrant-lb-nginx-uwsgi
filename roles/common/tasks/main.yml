@@ -1,0 +1,8 @@
+---
+# tasks file for common
+
+- name: install default software
+  apt: pkg={{item}} update_cache=yes
+  with_items:
+    - cron-apt
+  tags: [packages]
