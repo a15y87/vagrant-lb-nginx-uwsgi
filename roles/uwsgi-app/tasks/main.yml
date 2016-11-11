@@ -6,6 +6,7 @@
   with_items:
   -  uwsgi
   -  uwsgi-emperor
+  -  uwsgi-plugin-python
   tags: [uwsgi]
 
 - name: create app dir
