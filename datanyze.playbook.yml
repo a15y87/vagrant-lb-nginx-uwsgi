@@ -8,14 +8,11 @@
   gather_facts: yes
   roles:
   - { role: common }
-
+- hosts: nginx
+  roles:
+  - { role: nginx }
+  - { role: uwsgi-app }
 - hosts: haproxy
   roles:
   - { role: haproxy }
 
-
-#- hosts: nginx
-#  roles:
-#  - { role: nginx }
-#  - { role: logrotate }
-#  - { role: uwsgi-app }

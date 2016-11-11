@@ -40,7 +40,7 @@
 
 
 - name: add haproxy config
-  template: src='{{ haproxy_config }}' dest="/etc/haproxy/haproxy.cfg"
+  template: src="{{ haproxy_config }}" dest="/etc/haproxy/haproxy.cfg"
   notify:
     - reload haproxy
   tags: [haproxy, haproxy-cfg]
