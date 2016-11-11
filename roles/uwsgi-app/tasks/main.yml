@@ -17,6 +17,11 @@
   copy: src="emperor.uwsgi.service" dest="/etc/systemd/system/emperor.uwsgi.service"
   tags: [uwsgi]
 
+- name: enable uwsgi-emperor systemd service
+  service: name="emperor.uwsgi.service" enabled=yes
+  tags: [uwsgi]
+
+
 #- name: add uwsgi systemd service
 #  template: src="uwsgi-app@.service.j2" dest="/etc/systemd/system/uwsgi-app@.service"
 #  tags: [uwsgi]
