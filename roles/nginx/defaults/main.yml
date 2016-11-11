@@ -1,0 +1,8 @@
+---
+
+nginx_conf: { 
+   worker_user: "www-data",
+   worker_processes: " {{ ansible_processor_cores * ansible_processor_count }} ",
+   worker_connections: "2048",
+   pidfile: "/var/run/nginx.pid"
+}

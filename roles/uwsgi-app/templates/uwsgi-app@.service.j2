@@ -1,0 +1,15 @@
+[Unit]
+Description=%i uWSGI app
+After=syslog.target
+
+[Service]
+ExecStart=/usr/bin/uwsgi \
+        --ini /srv/uwsgi/%i.ini \
+        --socket {{uwsgi_app_socket}}
+User={{ app_user }}
+Group={{ app_user }}
+Restart=on-failure
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all

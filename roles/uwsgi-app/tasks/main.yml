@@ -1,0 +1,45 @@
+---
+# tasks file for uwsgi-app
+
+- name: install uwsgi
+  apt: pkg={{ item }} state=present
+  with_items:
+  -  uwsgi
+  -  uwsgi-emperor
+  tags: [uwsgi]
+
+- name: create app dir
+  file: path="/srv/uwsgi" mode=0750 state=directory owner={{ app_user }}
+  tags: [uwsgi]
+
+- name: add uwsgi-emperor systemd service
+  copy: src="emperor.uwsgi.service" dest="/etc/systemd/system/emperor.uwsgi.service"
+  tags: [uwsgi]
+
+#- name: add uwsgi systemd service
+#  template: src="uwsgi-app@.service.j2" dest="/etc/systemd/system/uwsgi-app@.service"
+#  tags: [uwsgi]
+
+#- name: add uwsgi systemd socket
+#  template: src="uwsgi-app@.socket.j2" dest="/etc/systemd/system/uwsgi-app@.socket"
+#  tags: [uwsgi]
+
+#- name: enable uwsgi app service
+#  service: name="uwsgi-app@{{uwsgi_app}}.service" enabled=yes
+#  tags: [uwsgi]
+
+#- name: enable uwsgi app socket
+#  service: name="uwsgi-app@{{uwsgi_app}}.socket" enabled=yes
+#  tags: [uwsgi]
+
+- name: add uwsgi app conf
+  template: src="{{uwsgi_app}}.ini.j2" dest="/etc/uwsgi-emperor/vassals/{{uwsgi_app}}.ini"
+  notify:
+    - restart uwsgi-app
+  tags: [uwsgi]
+
+- name: add uwsgi app file
+  copy: src="{{uwsgi_app_file}}" dest="/srv/uwsgi/{{uwsgi_app_file}}"
+  notify:
+    - restart uwsgi-app
+  tags: [uwsgi]

@@ -1,0 +1,7 @@
+---
+# handlers file for uwsgi-app
+
+- name: restart uwsgi-app
+  service:
+    name: emperor.uwsgi.service
+    state: restarted

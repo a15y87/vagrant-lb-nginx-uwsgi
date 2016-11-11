@@ -1,0 +1,12 @@
+[Unit]
+Description=Socket for uWSGI app %i
+
+[Socket]
+ListenStream={{uwsgi_app_socket}}
+SocketUser={{ app_user }}
+SocketGroup={{ app_user }}
+SocketMode=0660
+
+[Install]
+WantedBy=sockets.target
+

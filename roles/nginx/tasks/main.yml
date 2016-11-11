@@ -1,0 +1,51 @@
+---
+# tasks file for nginx
+
+
+- name: add nginx repo
+  apt_key: url='http://nginx.org/keys/nginx_signing.key' state=present
+  tags: [nginx, nginx-repo]
+
+- name: add nginx
+  apt_repository: repo='deb http://nginx.org/packages/mainline/ubuntu/ {{ansible_distribution_release}} nginx' state=present
+  tags: [nginx, nginx-repo]
+
+- name: install nginx
+  apt: pkg='nginx'
+  tags: [nginx]
+
+- name: enable nginx service
+  service: name=nginx.service enabled=yes
+  tags: [nginx]
+
+- name: disable default site
+  file: path="/etc/nginx/conf.d/default.conf" state=absent
+  notify:
+    - restart nginx
+  tags: [nginx]
+
+- name: create application user
+  user: name={{ app_user }} system=yes
+
+- name: create logdir
+  file: path="{{ logfile | dirname }}" mode=0700 state=directory owner={{ app_user }}
+  tags: [nginx]
+
+- name: copy nginx.conf
+  template: src="{{ nginx_conf}}" dest="/etc/nginx/nginx.conf"
+  notify:
+  tags: [nginx, nginx-cfg]
+
+- name: enable config per site
+  template: src="{{ site_conf }}" dest="/etc/nginx/conf.d/{{ site_conf }}"
+  notify:
+    - restart nginx
+  tags: [nginx, nginx-cfg]
+
+- name: add logrotate
+  template: src="{{logrotate}}" dest="/etc/logrotate.d/{{logrotate}}"
+  notify:
+    - restart nginx
+  tags: [nginx, nginx-cfg]
+
+

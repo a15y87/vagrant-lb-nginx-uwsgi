@@ -1,0 +1,5 @@
+[uwsgi]
+mountpoint = {{uwsgi_app}}=/srv/uwsgi/{{uwsgi_app_file}}
+socket = {{uwsgi_app_socket}}
+plugin = python
+chdir = /srv/uwsgi/
