@@ -21,6 +21,9 @@ datanyze_cluster.each_with_index do |(hostname, cfg), index|
   config.vm.define hostname do |node|
     node.vm.hostname = hostname
     node.vm.network :private_network, ip: "#{cfg[:ipv4_address]}"
+    node.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--name", hostname]
+    end
 
 	  if index == datanyze_cluster.size - 1
         node.vm.provision :ansible do |ansible|
