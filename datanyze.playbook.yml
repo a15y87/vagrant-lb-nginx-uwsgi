@@ -6,13 +6,16 @@
 
 - hosts: all
   gather_facts: yes
+  become: yes
   roles:
   - { role: common }
 - hosts: nginx
+  become: yes
   roles:
   - { role: nginx }
   - { role: uwsgi-app }
 - hosts: haproxy
+  become: yes
   roles:
   - { role: haproxy }
 
